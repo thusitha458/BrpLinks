@@ -80,12 +80,12 @@ class MainApplication : Application(), ReactApplication {
             val referrerUrl = response.installReferrer
 
             val uri = Uri.parse("https://dummy.url/?$referrerUrl")
-            val referrerValue = uri.getQueryParameter("referrer")
-            if (referrerValue != null) {
+            val campaignValue = uri.getQueryParameter("utm_campaign")
+            if (campaignValue != null) {
               Handler(Looper.getMainLooper()).post {
                 Toast.makeText(
                   this@MainApplication,
-                  "[REFERRER] S: $referrerValue",
+                  "[REFERRER] Success: $campaignValue",
                   Toast.LENGTH_SHORT
                 ).show()
               }
@@ -93,12 +93,13 @@ class MainApplication : Application(), ReactApplication {
               Handler(Looper.getMainLooper()).post {
                 Toast.makeText(
                   this@MainApplication,
-                  "[REFERRER] F: ${referrerUrl.takeLast(20)}",
+                  "[REFERRER] Failed: $referrerUrl",
                   Toast.LENGTH_SHORT
                 ).show()
               }
             }
-            // TODO: "Not yet implemented"
+
+            referrerClient.endConnection()
           }
           InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
             // API not available on the current Play Store app.
