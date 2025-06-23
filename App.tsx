@@ -1,11 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -18,6 +11,8 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+import BrpLinksModule from './BrpLinksModule';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -56,6 +51,14 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [code, setCode] = useState<string>('loading...');
+
+  useEffect(() => {
+    BrpLinksModule.initialize()
+      .then((codeFromDeepLink: string) => setCode(codeFromDeepLink))
+      .catch(() => setCode('Could not find any :('));
+  }, []);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -70,7 +73,8 @@ function App(): React.JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="BRP Links">
-            Your links will be displayed here, once the development is done. :)
+            The code you used to open this app is:{' '}
+            <Text style={styles.code}>{code}</Text>
           </Section>
         </View>
       </ScrollView>
@@ -94,6 +98,9 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  code: {
+    color: 'red',
   },
 });
 
