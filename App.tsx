@@ -13,6 +13,7 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import BrpLinksModule from './BrpLinksModule';
+import {isFirstRun, markAsNonFirstRun} from './firstRunHelper';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -51,18 +52,24 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const [code, setCode] = useState<string>('loading...');
+  const [code, setCode] = useState<string>('');
 
   useEffect(() => {
-    BrpLinksModule.initialize()
-      .then((codeFromDeepLink: string) => {
-        if (codeFromDeepLink) {
-          setCode(codeFromDeepLink);
-          return;
-        }
-        setCode('Could not find any :(');
-      })
-      .catch(() => setCode('Could not find any :('));
+    isFirstRun().then(firstRun => {
+      if (firstRun) {
+        setCode('Loading...');
+        BrpLinksModule.initialize()
+          .then((codeFromDeepLink: string) => {
+            if (codeFromDeepLink) {
+              setCode(codeFromDeepLink);
+              return;
+            }
+            setCode('Could not find any :(');
+          })
+          .catch(() => setCode('Could not find any :('));
+      }
+      markAsNonFirstRun();
+    });
   }, []);
 
   return (
