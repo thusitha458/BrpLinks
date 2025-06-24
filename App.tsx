@@ -55,7 +55,13 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     BrpLinksModule.initialize()
-      .then((codeFromDeepLink: string) => setCode(codeFromDeepLink))
+      .then((codeFromDeepLink: string) => {
+        if (codeFromDeepLink) {
+          setCode(codeFromDeepLink);
+          return;
+        }
+        setCode('Could not find any :(');
+      })
       .catch(() => setCode('Could not find any :('));
   }, []);
 

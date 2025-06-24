@@ -9,10 +9,14 @@ RCT_REMAP_METHOD(initialize,
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
-  if (codeFromPasteboard) {
-    resolve(codeFromPasteboard);
-    return;
+  if (@available(iOS 16.0, *)) {
+    // We are skipping ios UIPasteboard for these ios versions, because it will give a prompt for the user
+  } else {
+    NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
+    if (codeFromPasteboard) {
+      resolve(codeFromPasteboard);
+      return;
+    }
   }
   
   [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
@@ -30,7 +34,10 @@ RCT_REMAP_METHOD(initialize,
   
   NSString *pasteString = pasteboard.string;
 
-  if (!pasteString) return nil;
+  if (!pasteString)
+  {
+    return nil;
+  }
 
   NSError *error = nil;
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"brplink::\\S+"
@@ -66,7 +73,7 @@ RCT_REMAP_METHOD(initialize,
         if (httpResponse.statusCode != 200) {
           NSError *statusError = [NSError errorWithDomain:@"MyNativeModule"
                                                      code:httpResponse.statusCode
-                                                 userInfo:@{NSLocalizedDescriptionKey: @"Unexpected status code"}];
+                                                 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat: @"Unexpected status code: %ld", static_cast<long>(httpResponse.statusCode)]}];
           completion(nil, statusError);
           return;
         }
