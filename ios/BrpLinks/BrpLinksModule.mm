@@ -9,14 +9,20 @@ RCT_REMAP_METHOD(initialize,
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  if (@available(iOS 16.0, *)) {
-    // We are skipping ios UIPasteboard for these ios versions, because it will give a prompt for the user
-  } else {
-    NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
-    if (codeFromPasteboard) {
-      resolve(codeFromPasteboard);
-      return;
-    }
+//  if (@available(iOS 16.0, *)) {
+//    // We are skipping ios UIPasteboard for these ios versions, because it will give a prompt for the user
+//  } else {
+//    NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
+//    if (codeFromPasteboard) {
+//      resolve(codeFromPasteboard);
+//      return;
+//    }
+//  }
+  
+  NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
+  if (codeFromPasteboard) {
+    resolve(codeFromPasteboard);
+    return;
   }
   
   [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
@@ -38,18 +44,17 @@ RCT_REMAP_METHOD(initialize,
   {
     return nil;
   }
+  
+  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 
-  NSError *error = nil;
-  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"brplink::\\S+"
-                                                                         options:0
-                                                                           error:&error];
+  NSNumber *number = [formatter numberFromString:pasteString];
 
-  NSTextCheckingResult *match = [regex firstMatchInString:pasteString options:0 range:NSMakeRange(0, pasteString.length)];
-
-  if (match) {
-    NSString *matchedString = [pasteString substringWithRange:match.range];
-    NSLog(@"Matched brplink: %@", matchedString);
-    return matchedString;
+  if (number != nil && [number doubleValue] >= 1000000 && [number doubleValue] <= 1999999) {
+    NSString *modifiedString = [pasteString substringFromIndex:1];
+    return modifiedString;
+  } else {
+    return nil;
   }
 
   return nil;
