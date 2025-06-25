@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Linking,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -64,12 +65,43 @@ function App(): React.JSX.Element {
               setCode(codeFromDeepLink);
               return;
             }
-            setCode('Could not find any :(');
+            setCode('None found');
           })
-          .catch(() => setCode('Could not find any :('));
+          .catch(() => setCode('None found'));
+      } else {
+        Linking.getInitialURL()
+          .then(initialUrl => {
+            if (initialUrl) {
+              const parts = initialUrl.split('/');
+              if (parts?.length) {
+                setCode(parts[parts.length - 1]);
+                return;
+              }
+            }
+            setCode('999901');
+          })
+          .catch(() => {
+            setCode('None found');
+          });
       }
       markAsNonFirstRun();
     });
+  }, []);
+
+  useEffect(() => {
+    const subscription = Linking.addEventListener('url', event => {
+      const url = event?.url;
+      if (url) {
+        const parts = url.split('/');
+        if (parts?.length) {
+          setCode(parts[parts.length - 1]);
+        }
+      }
+    });
+
+    return () => {
+      subscription?.remove();
+    };
   }, []);
 
   return (
