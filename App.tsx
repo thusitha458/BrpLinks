@@ -15,7 +15,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import BrpLinksModule from './BrpLinksModule';
 import {isFirstRun, markAsNonFirstRun} from './firstRunHelper';
-import BRPPasteControl from './BRPPasteControl';
+import PasteControl from './BRPPasteControl';
 import {getCurrentProviderCode, setProviderCode} from './providerCodeHelper';
 
 enum Screen {
@@ -117,7 +117,7 @@ function App(): React.JSX.Element {
           Paste button below to continue.
         </Text>
         <View style={styles.pasteControlContainer}>
-          <BRPPasteControl style={styles.pasteControl} />
+          <PasteControl style={styles.pasteControl} />
         </View>
       </View>
     );

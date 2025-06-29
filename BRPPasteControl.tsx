@@ -1,3 +1,8 @@
-import {requireNativeComponent} from 'react-native';
+import {requireNativeComponent, ViewStyle} from 'react-native';
+import React from 'react';
 
-export default requireNativeComponent('BRPPasteControl');
+const BRPPasteControl = requireNativeComponent('BRPPasteControl');
+
+export default function PasteControl(props: {style?: ViewStyle}) {
+  return <BRPPasteControl {...props} />;
+}
