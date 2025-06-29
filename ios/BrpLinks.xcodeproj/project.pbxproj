@@ -14,6 +14,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-BrpLinks-BrpLinksTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-BrpLinks-BrpLinksTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		CD0767EB2E0EFDC000620271 /* BRPPasteControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD0767EA2E0EFDC000620271 /* BRPPasteControl.mm */; };
+		CD0767ED2E0F047300620271 /* BRPPasteControlTarget.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD0767EC2E0F047300620271 /* BRPPasteControlTarget.mm */; };
 		CDD1BC9B2E0985D5006796D2 /* BrpLinksModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = CDD1BC9A2E0985D5006796D2 /* BrpLinksModule.mm */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,8 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-BrpLinks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BrpLinks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BrpLinks/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-BrpLinks-BrpLinksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BrpLinks-BrpLinksTests.release.xcconfig"; path = "Target Support Files/Pods-BrpLinks-BrpLinksTests/Pods-BrpLinks-BrpLinksTests.release.xcconfig"; sourceTree = "<group>"; };
+		CD0767EA2E0EFDC000620271 /* BRPPasteControl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BRPPasteControl.mm; path = BrpLinks/BRPPasteControl.mm; sourceTree = "<group>"; };
+		CD0767EC2E0F047300620271 /* BRPPasteControlTarget.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BRPPasteControlTarget.mm; path = BrpLinks/BRPPasteControlTarget.mm; sourceTree = "<group>"; };
 		CDD1BC9A2E0985D5006796D2 /* BrpLinksModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BrpLinksModule.mm; path = BrpLinks/BrpLinksModule.mm; sourceTree = "<group>"; };
 		CDE3AF8A2E0B1672001DCAD7 /* BrpLinks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BrpLinks.entitlements; path = BrpLinks/BrpLinks.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -120,6 +124,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CD0767EC2E0F047300620271 /* BRPPasteControlTarget.mm */,
+				CD0767EA2E0EFDC000620271 /* BRPPasteControl.mm */,
 				CDD1BC9A2E0985D5006796D2 /* BrpLinksModule.mm */,
 				13B07FAE1A68108700A75B9A /* BrpLinks */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -397,6 +403,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD0767ED2E0F047300620271 /* BRPPasteControlTarget.mm in Sources */,
+				CD0767EB2E0EFDC000620271 /* BRPPasteControl.mm in Sources */,
 				CDD1BC9B2E0985D5006796D2 /* BrpLinksModule.mm in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import type {PropsWithChildren} from 'react';
 import {
+  Button,
   Linking,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TextInput,
   View,
 } from 'react-native';
 
@@ -15,59 +15,55 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import BrpLinksModule from './BrpLinksModule';
 import {isFirstRun, markAsNonFirstRun} from './firstRunHelper';
+import BRPPasteControl from './BRPPasteControl';
+import {getCurrentProviderCode, setProviderCode} from './providerCodeHelper';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+enum Screen {
+  Loading,
+  Welcome,
+  CodeInput,
+  GymDetails,
 }
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [screen, setScreen] = useState<Screen>(Screen.Loading);
 
   const [code, setCode] = useState<string>('');
+  const [inputCode, setInputCode] = useState<string>('');
 
   useEffect(() => {
+    const checkForStoredProviderCode = () => {
+      getCurrentProviderCode().then(current => {
+        if (current) {
+          setScreen(Screen.GymDetails);
+          setCode(current);
+          return;
+        }
+        setScreen(Screen.CodeInput);
+      });
+    };
+
     isFirstRun().then(firstRun => {
       if (firstRun) {
-        setCode('Loading...');
         BrpLinksModule.initialize()
           .then((codeFromDeepLink: string) => {
             if (codeFromDeepLink) {
               setCode(codeFromDeepLink);
+              setProviderCode(codeFromDeepLink);
+              setScreen(Screen.GymDetails);
               return;
             }
-            setCode('None found');
+            getCurrentProviderCode().then(current => {
+              if (current) {
+                setCode(current);
+                setScreen(Screen.GymDetails);
+                return;
+              }
+              setScreen(Screen.CodeInput);
+              checkForStoredProviderCode();
+            });
           })
-          .catch(() => setCode('None found'));
+          .catch(() => checkForStoredProviderCode());
       } else {
         Linking.getInitialURL()
           .then(initialUrl => {
@@ -75,13 +71,15 @@ function App(): React.JSX.Element {
               const parts = initialUrl.split('/');
               if (parts?.length) {
                 setCode(parts[parts.length - 1]);
+                setProviderCode(parts[parts.length - 1]);
+                setScreen(Screen.GymDetails);
                 return;
               }
             }
-            setCode('999901');
+            checkForStoredProviderCode();
           })
           .catch(() => {
-            setCode('None found');
+            checkForStoredProviderCode();
           });
       }
       markAsNonFirstRun();
@@ -95,6 +93,8 @@ function App(): React.JSX.Element {
         const parts = url.split('/');
         if (parts?.length) {
           setCode(parts[parts.length - 1]);
+          setProviderCode(parts[parts.length - 1]);
+          setScreen(Screen.GymDetails);
         }
       }
     });
@@ -104,23 +104,97 @@ function App(): React.JSX.Element {
     };
   }, []);
 
+  const renderWelcomeContent = () => {
+    if (screen !== Screen.Welcome) {
+      return null;
+    }
+
+    return (
+      <View style={styles.welcomeContainer}>
+        <Text style={styles.sectionTitle}>Welcome to GoActive!</Text>
+        <Text style={styles.welcomeText}>
+          We'll personalize your experience by loading your gym details. Tap the
+          Paste button below to continue.
+        </Text>
+        <View style={styles.pasteControlContainer}>
+          <BRPPasteControl style={styles.pasteControl} />
+        </View>
+      </View>
+    );
+  };
+
+  const renderCodeInput = () => {
+    if (screen !== Screen.CodeInput) {
+      return null;
+    }
+
+    return (
+      <View>
+        <Text style={[styles.sectionTitle, styles.codeInputScreenTitle]}>
+          Installation selection
+        </Text>
+
+        <View style={styles.codeInputContainer}>
+          <TextInput
+            style={styles.textInput}
+            maxLength={6}
+            keyboardType="number-pad"
+            placeholder="Enter provider code"
+            value={inputCode}
+            onChangeText={setInputCode}
+          />
+          <Button
+            title="Done"
+            disabled={!inputCode.trim() || inputCode.length !== 6}
+            onPress={() => {
+              if (inputCode.trim() && inputCode.length === 6) {
+                setCode(inputCode);
+                setProviderCode(inputCode);
+                setInputCode('');
+                setScreen(Screen.GymDetails);
+              }
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  const renderGymDetails = () => {
+    if (screen !== Screen.GymDetails) {
+      return null;
+    }
+
+    return (
+      <View style={styles.gymDetailsContainer}>
+        <Text style={styles.sectionTitle}>Your Gym Details</Text>
+        <Text style={styles.gymDetailsText}>
+          You are now connected to: {code}
+        </Text>
+        <View style={styles.exitButtonContainer}>
+          <Button
+            title="Exit"
+            onPress={() => {
+              setCode('');
+              setProviderCode('');
+              setScreen(Screen.CodeInput);
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle={'dark-content'} backgroundColor={Colors.lighter} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="BRP Links">
-            The code you used to open this app is:{' '}
-            <Text style={styles.code}>{code}</Text>
-          </Section>
+        style={styles.scrollView}>
+        <View style={styles.mainContainer}>
+          {renderGymDetails()}
+          {renderCodeInput()}
+          {renderWelcomeContent()}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -128,18 +202,75 @@ function App(): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
+  safeArea: {
+    backgroundColor: Colors.lighter,
+  },
+  scrollView: {
+    backgroundColor: Colors.lighter,
+  },
+  mainContainer: {
+    backgroundColor: Colors.white,
+  },
+  welcomeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 48,
+  },
+  welcomeText: {
+    color: Colors.dark,
+    marginTop: 8,
+    textAlign: 'center',
+    paddingHorizontal: 24,
+  },
+  pasteControlContainer: {
+    height: 48,
+    width: 100,
+    marginTop: 10,
+  },
+  pasteControl: {
+    flex: 1,
+  },
+  codeInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: 12,
+    paddingHorizontal: 24,
+  },
+  textInput: {
+    flex: 1,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  gymDetailsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 48,
+  },
+  gymDetailsText: {
+    color: Colors.dark,
+    marginTop: 8,
+    textAlign: 'center',
+    paddingHorizontal: 24,
+  },
+  exitButtonContainer: {
+    height: 48,
+    width: 100,
+    marginTop: 10,
+  },
+  codeInputScreenTitle: {
+    paddingTop: 48,
+    paddingBottom: 12,
     paddingHorizontal: 24,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
   },
   highlight: {
     fontWeight: '700',
