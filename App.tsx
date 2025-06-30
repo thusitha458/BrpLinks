@@ -47,6 +47,12 @@ function App(): React.JSX.Element {
       if (firstRun) {
         BrpLinksModule.initialize()
           .then((codeFromDeepLink: string) => {
+            if (codeFromDeepLink === '__pasteboard_contains_a_number__') {
+              // ios only
+              setScreen(Screen.Welcome);
+              return;
+            }
+
             if (codeFromDeepLink) {
               setCode(codeFromDeepLink);
               setProviderCode(codeFromDeepLink);
@@ -117,7 +123,58 @@ function App(): React.JSX.Element {
           Paste button below to continue.
         </Text>
         <View style={styles.pasteControlContainer}>
-          <PasteControl style={styles.pasteControl} />
+          <PasteControl
+            style={styles.pasteControl}
+            onTextPasted={e => {
+              if (e?.nativeEvent?.value) {
+                const pastedCode = e.nativeEvent.value.trim();
+                if (
+                  pastedCode.length === 7 &&
+                  !isNaN(Number(pastedCode)) &&
+                  Number(pastedCode) > 1000000 &&
+                  Number(pastedCode) <= 1999999
+                ) {
+                  const updatedCode = pastedCode.slice(1);
+
+                  setCode(updatedCode);
+                  setProviderCode(updatedCode);
+                  setScreen(Screen.GymDetails);
+                  return;
+                }
+
+                const checkForStoredProviderCode = () => {
+                  getCurrentProviderCode().then(current => {
+                    if (current) {
+                      setScreen(Screen.GymDetails);
+                      setCode(current);
+                      return;
+                    }
+                    setScreen(Screen.CodeInput);
+                  });
+                };
+
+                BrpLinksModule.iosContinueWithoutPasting()
+                  .then((codeFromDeepLink: string) => {
+                    if (codeFromDeepLink) {
+                      setCode(codeFromDeepLink);
+                      setProviderCode(codeFromDeepLink);
+                      setScreen(Screen.GymDetails);
+                      return;
+                    }
+                    getCurrentProviderCode().then(current => {
+                      if (current) {
+                        setCode(current);
+                        setScreen(Screen.GymDetails);
+                        return;
+                      }
+                      setScreen(Screen.CodeInput);
+                      checkForStoredProviderCode();
+                    });
+                  })
+                  .catch(() => checkForStoredProviderCode());
+              }
+            }}
+          />
         </View>
       </View>
     );

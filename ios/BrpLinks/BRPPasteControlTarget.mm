@@ -9,8 +9,9 @@
           [provider loadObjectOfClass:[NSString class] completionHandler:^(NSString *string, NSError * _Nullable error) {
               if (string) {
                   dispatch_async(dispatch_get_main_queue(), ^{
-                      NSLog(@"Pasted: %@", string);
-                      // handle the pasted string
+                      if (self.onTextPasted) {
+                        self.onTextPasted(string);
+                      }
                   });
               }
           }];

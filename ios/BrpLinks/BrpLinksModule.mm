@@ -9,22 +9,41 @@ RCT_REMAP_METHOD(initialize,
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-//  if (@available(iOS 16.0, *)) {
-//    // We are skipping ios UIPasteboard for these ios versions, because it will give a prompt for the user
-//  } else {
-//    NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
-//    if (codeFromPasteboard) {
-//      resolve(codeFromPasteboard);
-//      return;
-//    }
-//  }
-  
-  NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
-  if (codeFromPasteboard) {
-    resolve(codeFromPasteboard);
-    return;
+  if (@available(iOS 16.0, *)) {
+    [self pasteboardCouldContainAProviderCode:^(NSSet<NSString *> * _Nullable result, NSError * _Nullable error) {
+      if (!error && [result containsObject:UIPasteboardDetectionPatternNumber]) {
+        resolve(@"__pasteboard_contains_a_number__");
+      } else {
+        [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
+          if (error) {
+            reject(@"api_error", error.localizedDescription, error);
+          } else {
+            resolve(code ?: [NSNull null]);
+          }
+        }];
+      }
+    }];
+  } else {
+    NSString *codeFromPasteboard = [self extractBrpLinkFromPasteboard];
+    if (codeFromPasteboard) {
+      resolve(codeFromPasteboard);
+      return;
+    }
+    
+    [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
+        if (error) {
+          reject(@"api_error", error.localizedDescription, error);
+        } else {
+          resolve(code ?: [NSNull null]);
+        }
+      }];
   }
-  
+}
+
+RCT_REMAP_METHOD(iosContinueWithoutPasting,
+                  resolverx:(RCTPromiseResolveBlock)resolve
+                  rejecterx:(RCTPromiseRejectBlock)reject)
+{
   [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
       if (error) {
         reject(@"api_error", error.localizedDescription, error);
@@ -32,6 +51,16 @@ RCT_REMAP_METHOD(initialize,
         resolve(code ?: [NSNull null]);
       }
     }];
+}
+
+- (void)pasteboardCouldContainAProviderCode:(void(^)(NSSet<UIPasteboardDetectionPattern> * _Nullable,
+                                                     NSError * _Nullable))completion
+{
+  UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+  
+  NSSet *patterns = [NSSet setWithObjects:UIPasteboardDetectionPatternNumber, nil];
+  
+  [pasteboard detectPatternsForPatterns:patterns completionHandler:completion];
 }
 
 - (NSString *)extractBrpLinkFromPasteboard

@@ -1,4 +1,5 @@
 #import "BRPPasteControlTarget.h"
+#import "BRPPasteControlView.h"
 #import <React/RCTViewManager.h>
 
 @interface BRPPasteControlManager : RCTViewManager
@@ -6,7 +7,8 @@
 
 @implementation BRPPasteControlManager
 
-RCT_EXPORT_MODULE(BRPPasteControl)
+RCT_EXPORT_MODULE(BRPPasteControlManager)
+RCT_EXPORT_VIEW_PROPERTY(onTextPasted, RCTBubblingEventBlock)
 
 - (UIView *)view
 {
@@ -16,20 +18,24 @@ RCT_EXPORT_MODULE(BRPPasteControl)
     target.pasteConfiguration = [[UIPasteConfiguration alloc] initWithTypeIdentifiersForAcceptingClass:[NSString class]];
     
     UIPasteControlConfiguration *controlConfig = [[UIPasteControlConfiguration alloc] init];
-//    controlConfig.baseBackgroundColor = [UIColor redColor];
-//    controlConfig.baseForegroundColor = [UIColor magentaColor];
     controlConfig.cornerStyle = UIButtonConfigurationCornerStyleCapsule;
     controlConfig.displayMode = UIPasteControlDisplayModeLabelOnly;
     
-    UIPasteControl *pasteButton = [[UIPasteControl alloc] initWithConfiguration:controlConfig];
-//    pasteButton.frame = CGRectMake(100, 200, 100, 40);
+    BRPPasteControlView *pasteButton = [[BRPPasteControlView alloc] initWithConfiguration:controlConfig];
     
     pasteButton.target = target;
     
     [pasteButton addSubview:target];
     
+    target.onTextPasted = ^(NSString *text) {
+      if (pasteButton.onTextPasted) {
+        pasteButton.onTextPasted(@{
+          @"value": text,
+        });
+      }
+    };
+    
     return pasteButton;
-//    [target addSubview:pasteButton];
   }
   
   return target;
