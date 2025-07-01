@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,7 @@
 		CD0767EB2E0EFDC000620271 /* BRPPasteControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD0767EA2E0EFDC000620271 /* BRPPasteControl.mm */; };
 		CD0767ED2E0F047300620271 /* BRPPasteControlTarget.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD0767EC2E0F047300620271 /* BRPPasteControlTarget.mm */; };
 		CD0767F12E11A77B00620271 /* BRPPasteControlView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD0767F02E11A77B00620271 /* BRPPasteControlView.mm */; };
+		CD3226B32E14472800CB31DD /* BrpLinksAppClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = CD32269A2E14472700CB31DD /* BrpLinksAppClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CDD1BC9B2E0985D5006796D2 /* BrpLinksModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = CDD1BC9A2E0985D5006796D2 /* BrpLinksModule.mm */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +29,28 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = BrpLinks;
 		};
+		CD3226B12E14472800CB31DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD3226992E14472700CB31DD;
+			remoteInfo = BrpLinksAppClip;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CD3226B82E14472800CB31DD /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				CD3226B32E14472800CB31DD /* BrpLinksAppClip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* BrpLinksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrpLinksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,10 +72,25 @@
 		CD0767EA2E0EFDC000620271 /* BRPPasteControl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BRPPasteControl.mm; path = BrpLinks/BRPPasteControl.mm; sourceTree = "<group>"; };
 		CD0767EC2E0F047300620271 /* BRPPasteControlTarget.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BRPPasteControlTarget.mm; path = BrpLinks/BRPPasteControlTarget.mm; sourceTree = "<group>"; };
 		CD0767F02E11A77B00620271 /* BRPPasteControlView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BRPPasteControlView.mm; path = BrpLinks/BRPPasteControlView.mm; sourceTree = "<group>"; };
+		CD32269A2E14472700CB31DD /* BrpLinksAppClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrpLinksAppClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD1BC9A2E0985D5006796D2 /* BrpLinksModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BrpLinksModule.mm; path = BrpLinks/BrpLinksModule.mm; sourceTree = "<group>"; };
 		CDE3AF8A2E0B1672001DCAD7 /* BrpLinks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BrpLinks.entitlements; path = BrpLinks/BrpLinks.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CD3226B42E14472800CB31DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CD3226992E14472700CB31DD /* BrpLinksAppClip */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CD32269B2E14472700CB31DD /* BrpLinksAppClip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CD3226B42E14472800CB31DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = BrpLinksAppClip; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		00E356EB1AD99517003FC87E /* Frameworks */ = {
@@ -69,6 +106,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-BrpLinks.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD3226972E14472700CB31DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +177,7 @@
 				13B07FAE1A68108700A75B9A /* BrpLinks */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* BrpLinksTests */,
+				CD32269B2E14472700CB31DD /* BrpLinksAppClip */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -147,6 +192,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* BrpLinks.app */,
 				00E356EE1AD99517003FC87E /* BrpLinksTests.xctest */,
+				CD32269A2E14472700CB31DD /* BrpLinksAppClip.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -197,15 +243,39 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				CD3226B82E14472800CB31DD /* Embed App Clips */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CD3226B22E14472800CB31DD /* PBXTargetDependency */,
 			);
 			name = BrpLinks;
 			productName = BrpLinks;
 			productReference = 13B07F961A680F5B00A75B9A /* BrpLinks.app */;
 			productType = "com.apple.product-type.application";
+		};
+		CD3226992E14472700CB31DD /* BrpLinksAppClip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD3226B52E14472800CB31DD /* Build configuration list for PBXNativeTarget "BrpLinksAppClip" */;
+			buildPhases = (
+				CD3226962E14472700CB31DD /* Sources */,
+				CD3226972E14472700CB31DD /* Frameworks */,
+				CD3226982E14472700CB31DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CD32269B2E14472700CB31DD /* BrpLinksAppClip */,
+			);
+			name = BrpLinksAppClip;
+			packageProductDependencies = (
+			);
+			productName = BrpLinksAppClip;
+			productReference = CD32269A2E14472700CB31DD /* BrpLinksAppClip.app */;
+			productType = "com.apple.product-type.application.on-demand-install-capable";
 		};
 /* End PBXNativeTarget section */
 
@@ -221,6 +291,9 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
+					};
+					CD3226992E14472700CB31DD = {
+						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
@@ -239,6 +312,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* BrpLinks */,
 				00E356ED1AD99517003FC87E /* BrpLinksTests */,
+				CD3226992E14472700CB31DD /* BrpLinksAppClip */,
 			);
 		};
 /* End PBXProject section */
@@ -257,6 +331,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD3226982E14472700CB31DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +496,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CD3226962E14472700CB31DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -422,6 +510,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* BrpLinks */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		CD3226B22E14472800CB31DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD3226992E14472700CB31DD /* BrpLinksAppClip */;
+			targetProxy = CD3226B12E14472800CB31DD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -712,6 +805,102 @@
 			};
 			name = Release;
 		};
+		CD3226B62E14472800CB31DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = BrpLinksAppClip/BrpLinksAppClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = XAR3N4K5N8;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrpLinksAppClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrpLinks;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = se.brpsystems.brplinks.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		CD3226B72E14472800CB31DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = BrpLinksAppClip/BrpLinksAppClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XAR3N4K5N8;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BrpLinksAppClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BrpLinks;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = se.brpsystems.brplinks.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -738,6 +927,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD3226B52E14472800CB31DD /* Build configuration list for PBXNativeTarget "BrpLinksAppClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD3226B62E14472800CB31DD /* Debug */,
+				CD3226B72E14472800CB31DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
