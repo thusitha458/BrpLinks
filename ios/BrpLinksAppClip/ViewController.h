@@ -9,6 +9,10 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *installButton;
+@property (weak, nonatomic) IBOutlet UIImageView *logoImage;
 
 @end
 

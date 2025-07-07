@@ -6,6 +6,7 @@
 //
 
 #import "SceneDelegate.h"
+#import "ProviderCodeDataModel.h"
 
 @interface SceneDelegate ()
 
@@ -18,6 +19,36 @@
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+  
+    NSSet<NSUserActivity *> *userActivities = connectionOptions.userActivities;
+    for (NSUserActivity *userActivity in userActivities) {
+      if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
+        NSURL *incomingUrl = userActivity.webpageURL;
+        if (incomingUrl) {
+          NSString *providerCode = [self extractProviderCode:incomingUrl];
+          if (providerCode) {
+            ProviderCodeDataModel *dataModel = [ProviderCodeDataModel getInstance];
+            dataModel.providerCode = providerCode;
+          }
+          break;
+        }
+      }
+    }
+}
+
+- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity {
+  if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
+    NSURL *url = userActivity.webpageURL;
+    if (url) {
+      NSString *providerCode = [self extractProviderCode:url];
+      if (providerCode) {
+        ProviderCodeDataModel *dataModel = [ProviderCodeDataModel getInstance];
+        dataModel.providerCode = providerCode;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PROVIDER_CODE_RECEIVED" object:nil userInfo:@{@"providerCode": providerCode}];
+      }
+    }
+  }
 }
 
 
@@ -46,12 +77,17 @@
     // Use this method to undo the changes made on entering the background.
 }
 
-
 - (void)sceneDidEnterBackground:(UIScene *)scene {
     // Called as the scene transitions from the foreground to the background.
     // Use this method to save data, release shared resources, and store enough scene-specific state information
     // to restore the scene back to its current state.
 }
 
+- (NSString *)extractProviderCode:(NSURL *)url {
+  if (url && [url.path hasPrefix:@"/providers/"] && [url.lastPathComponent isEqualToString:[url.path stringByReplacingOccurrencesOfString:@"/providers/" withString:@""]]) {
+    return url.lastPathComponent;
+  }
+  return nil;
+}
 
 @end

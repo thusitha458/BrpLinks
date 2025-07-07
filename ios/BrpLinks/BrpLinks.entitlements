@@ -6,5 +6,9 @@
 	<array>
 		<string>applinks:fbd-links.rootcode.software</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.se.brpsystems.brplinks</string>
+	</array>
 </dict>
 </plist>

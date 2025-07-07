@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   Button,
   Linking,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -75,7 +74,7 @@ function App(): React.JSX.Element {
           .then(initialUrl => {
             if (initialUrl) {
               const parts = initialUrl.split('/');
-              if (parts?.length) {
+              if (parts?.length && parts[parts.length - 1]?.length === 6) {
                 setCode(parts[parts.length - 1]);
                 setProviderCode(parts[parts.length - 1]);
                 setScreen(Screen.GymDetails);
@@ -97,7 +96,7 @@ function App(): React.JSX.Element {
       const url = event?.url;
       if (url) {
         const parts = url.split('/');
-        if (parts?.length) {
+        if (parts?.length && parts[parts.length - 1]?.length === 6) {
           setCode(parts[parts.length - 1]);
           setProviderCode(parts[parts.length - 1]);
           setScreen(Screen.GymDetails);
@@ -243,7 +242,7 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.root}>
       <StatusBar barStyle={'dark-content'} backgroundColor={Colors.lighter} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -254,25 +253,30 @@ function App(): React.JSX.Element {
           {renderWelcomeContent()}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  root: {
+    flex: 1,
+    paddingTop: 64,
     backgroundColor: Colors.lighter,
   },
   scrollView: {
+    flex: 1,
     backgroundColor: Colors.lighter,
   },
   mainContainer: {
-    backgroundColor: Colors.white,
+    flex: 1,
+    backgroundColor: Colors.lighter,
   },
   welcomeContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 48,
+    backgroundColor: Colors.lighter,
   },
   welcomeText: {
     color: Colors.dark,

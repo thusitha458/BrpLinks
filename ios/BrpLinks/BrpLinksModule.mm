@@ -9,6 +9,17 @@ RCT_REMAP_METHOD(initialize,
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
+  // if the app clip has saved data here, use it
+  NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.se.brpsystems.brplinks"];
+  NSString *providerCode = [sharedDefaults objectForKey:@"provider_code"];
+  
+  NSLog(@"Provider code: %@", providerCode);
+  if (providerCode != nil && [providerCode length] == 6) {
+    [sharedDefaults removeObjectForKey:@"provider_code"];
+    resolve(providerCode);
+    return;
+  }
+  
   if (@available(iOS 16.0, *)) {
     [self pasteboardCouldContainAProviderCode:^(NSSet<NSString *> * _Nullable result, NSError * _Nullable error) {
       if (!error && [result containsObject:UIPasteboardDetectionPatternNumber]) {
@@ -105,7 +116,7 @@ RCT_REMAP_METHOD(iosContinueWithoutPasting,
 
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if (httpResponse.statusCode != 200) {
-          NSError *statusError = [NSError errorWithDomain:@"MyNativeModule"
+          NSError *statusError = [NSError errorWithDomain:@"BrpLinksModule"
                                                      code:httpResponse.statusCode
                                                  userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat: @"Unexpected status code: %ld", static_cast<long>(httpResponse.statusCode)]}];
           completion(nil, statusError);
@@ -126,13 +137,13 @@ RCT_REMAP_METHOD(iosContinueWithoutPasting,
           if (code) {
             completion(code, nil);
           } else {
-            NSError *codeError = [NSError errorWithDomain:@"MyNativeModule"
+            NSError *codeError = [NSError errorWithDomain:@"BrpLinksModule"
                                                      code:999
                                                  userInfo:@{NSLocalizedDescriptionKey: @"Code not found in latestVisit"}];
             completion(nil, codeError);
           }
         } else {
-          NSError *responseError = [NSError errorWithDomain:@"MyNativeModule"
+          NSError *responseError = [NSError errorWithDomain:@"BrpLinksModule"
                                                        code:998
                                                    userInfo:@{NSLocalizedDescriptionKey: @"API response indicates failure"}];
           completion(nil, responseError);
