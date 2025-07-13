@@ -34,9 +34,6 @@
         }
       }
     }
-  
-  ProviderCodeDataModel *dataModel = [ProviderCodeDataModel getInstance];
-  dataModel.providerCode = @"003500";
 }
 
 - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity {

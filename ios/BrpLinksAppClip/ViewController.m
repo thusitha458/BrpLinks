@@ -325,8 +325,12 @@
         NSDictionary *themes = json[@"themes"];
         if (themes) {
           NSDictionary *lightTheme = themes[@"light"];
+          NSDictionary *darkTheme = themes[@"dark"];
+          
           if (lightTheme && lightTheme[@"primaryColor"]) {
             primaryColor = lightTheme[@"primaryColor"];
+          } else if (darkTheme && darkTheme[@"primaryColor"]) {
+            primaryColor = darkTheme[@"primaryColor"];
           }
         }
         
