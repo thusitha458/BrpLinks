@@ -15,49 +15,13 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9Y-Tc-RgH">
-                                <rect key="frame" x="196.66666666666666" y="426" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZKK-ZR-dII">
-                                <rect key="frame" x="162" y="446" width="69" height="37"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Install"/>
-                                <connections>
-                                    <action selector="onPressInstall:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZwM-Rk-re2"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kLN-gY-ogf">
-                                <rect key="frame" x="146.66666666666666" y="276" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="Ig6-81-ze9"/>
-                                    <constraint firstAttribute="width" constant="100" id="aMh-8n-9cs"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="J9Y-Tc-RgH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Bde-t2-dxp"/>
-                            <constraint firstItem="J9Y-Tc-RgH" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ZTU-TB-T35"/>
-                            <constraint firstItem="ZKK-ZR-dII" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iHA-LT-MRC"/>
-                            <constraint firstItem="ZKK-ZR-dII" firstAttribute="top" secondItem="J9Y-Tc-RgH" secondAttribute="bottom" constant="20" id="lCj-J2-7Vm"/>
-                            <constraint firstItem="kLN-gY-ogf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="o7f-CB-uqr"/>
-                            <constraint firstItem="J9Y-Tc-RgH" firstAttribute="top" secondItem="kLN-gY-ogf" secondAttribute="bottom" constant="50" id="ocY-cG-UK4"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="installButton" destination="ZKK-ZR-dII" id="vlr-uF-AJs"/>
-                        <outlet property="logoImage" destination="kLN-gY-ogf" id="TkI-8H-y12"/>
-                        <outlet property="welcomeLabel" destination="J9Y-Tc-RgH" id="zFP-hF-J94"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="95" y="4"/>
+            <point key="canvasLocation" x="93.89312977099236" y="3.5211267605633805"/>
         </scene>
     </scenes>
     <resources>
