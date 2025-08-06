@@ -25,7 +25,7 @@ RCT_REMAP_METHOD(initialize,
       if (!error && [result containsObject:UIPasteboardDetectionPatternNumber]) {
         resolve(@"__pasteboard_contains_a_number__");
       } else {
-        [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
+        [self getProviderCodeFromAPI:^(NSString * _Nullable code, NSError * _Nullable error) {
           if (error) {
             reject(@"api_error", error.localizedDescription, error);
           } else {
@@ -41,7 +41,7 @@ RCT_REMAP_METHOD(initialize,
       return;
     }
     
-    [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
+    [self getProviderCodeFromAPI:^(NSString * _Nullable code, NSError * _Nullable error) {
         if (error) {
           reject(@"api_error", error.localizedDescription, error);
         } else {
@@ -55,7 +55,7 @@ RCT_REMAP_METHOD(iosContinueWithoutPasting,
                   resolverx:(RCTPromiseResolveBlock)resolve
                   rejecterx:(RCTPromiseRejectBlock)reject)
 {
-  [self callTheAPIWithCompletion:^(NSString * _Nullable code, NSError * _Nullable error) {
+  [self getProviderCodeFromAPI:^(NSString * _Nullable code, NSError * _Nullable error) {
       if (error) {
         reject(@"api_error", error.localizedDescription, error);
       } else {
@@ -100,11 +100,11 @@ RCT_REMAP_METHOD(iosContinueWithoutPasting,
   return nil;
 }
 
-- (void)callTheAPIWithCompletion:(void (^)(NSString * _Nullable code, NSError * _Nullable error))completion
+- (void)getProviderCodeFromAPI:(void (^)(NSString * _Nullable code, NSError * _Nullable error))completion
 {
-  NSURL *url = [NSURL URLWithString:@"https://fbd-links.rootcode.software/api/visits/latest"];
+  NSURL *url = [NSURL URLWithString:@"https://fbd-links.rootcode.software/api/ios/record-retrieval"];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-  [request setHTTPMethod:@"GET"];
+  [request setHTTPMethod:@"POST"];
 
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession]
     dataTaskWithRequest:request
@@ -130,23 +130,14 @@ RCT_REMAP_METHOD(iosContinueWithoutPasting,
           return;
         }
 
-        BOOL success = [json[@"success"] boolValue];
-        if (success) {
-          NSDictionary *latestVisit = json[@"latestVisit"];
-          NSString *code = latestVisit[@"code"];
-          if (code) {
-            completion(code, nil);
-          } else {
-            NSError *codeError = [NSError errorWithDomain:@"BrpLinksModule"
-                                                     code:999
-                                                 userInfo:@{NSLocalizedDescriptionKey: @"Code not found in latestVisit"}];
-            completion(nil, codeError);
-          }
+        NSString *providerCode = json[@"providerCode"];
+        if (providerCode) {
+          completion(providerCode, nil);
         } else {
-          NSError *responseError = [NSError errorWithDomain:@"BrpLinksModule"
-                                                       code:998
-                                                   userInfo:@{NSLocalizedDescriptionKey: @"API response indicates failure"}];
-          completion(nil, responseError);
+          NSError *codeError = [NSError errorWithDomain:@"BrpLinksModule"
+                                                     code:999
+                                                 userInfo:@{NSLocalizedDescriptionKey: @"Provider code not found"}];
+          completion(nil, codeError);
         }
   }];
 

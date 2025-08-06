@@ -12,6 +12,7 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
@@ -77,7 +78,8 @@ class BrpLinksModule(reactContext: ReactApplicationContext): ReactContextBaseJav
 
   private fun callTheAPI(promise: Promise) {
     val request = Request.Builder()
-      .url("https://fbd-links.rootcode.software/api/visits/latest")
+      .url("https://fbd-links.rootcode.software/api/android/record-retrieval")
+      .post(ByteArray(0).toRequestBody(null))
       .build()
 
     httpClient.newCall(request).enqueue(object : Callback {
@@ -96,10 +98,9 @@ class BrpLinksModule(reactContext: ReactApplicationContext): ReactContextBaseJav
           val responseBody = response.body?.string()
           if (responseBody != null) {
             val json = JSONObject(responseBody)
-            val latestVisit = json.getJSONObject("latestVisit")
-            val code = latestVisit.getString("code")
+            val providerCode = json.getString("providerCode")
 
-            promise.resolve(code)
+            promise.resolve(providerCode)
             return
           }
         }
