@@ -13,7 +13,6 @@ RCT_REMAP_METHOD(initialize,
   NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.se.brpsystems.brplinks"];
   NSString *providerCode = [sharedDefaults objectForKey:@"provider_code"];
   
-  NSLog(@"Provider code: %@", providerCode);
   if (providerCode != nil && [providerCode length] == 6) {
     [sharedDefaults removeObjectForKey:@"provider_code"];
     resolve(providerCode);

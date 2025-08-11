@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:fbd-links.rootcode.software</string>
+		<string>applinks:fbdlinkstest.rootcode.software</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>

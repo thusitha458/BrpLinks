@@ -87,6 +87,29 @@
   if (url && [url.path hasPrefix:@"/providers/"] && [url.lastPathComponent isEqualToString:[url.path stringByReplacingOccurrencesOfString:@"/providers/" withString:@""]]) {
     return url.lastPathComponent;
   }
+  
+  if (url && url.query) {
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+    
+    if (urlComponents.queryItems) {
+        for (NSURLQueryItem *mainUrlQueryItem in urlComponents.queryItems) {
+          if ([mainUrlQueryItem.name isEqualToString:@"link"] && mainUrlQueryItem.value) {
+            NSURL *deepLink = [NSURL URLWithString:mainUrlQueryItem.value];
+            if (deepLink && deepLink.query) {
+              NSURLComponents *deepLinkComponents = [NSURLComponents componentsWithURL:deepLink resolvingAgainstBaseURL:NO];
+              if (deepLinkComponents.queryItems) {
+                for (NSURLQueryItem *deepLinkQueryItem in deepLinkComponents.queryItems) {
+                  if (([deepLinkQueryItem.name isEqualToString:@"facility"] || [deepLinkQueryItem.name isEqualToString:@"providerCode"]) && deepLinkQueryItem.value) {
+                        return deepLinkQueryItem.value;
+                    }
+                }
+              }
+            }
+          }
+        }
+    }
+  }
+  
   return nil;
 }
 
